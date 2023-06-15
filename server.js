@@ -1,7 +1,7 @@
 require('dotenv').config()
-const { data } = require('./data')
 const express = require('express')
 const cors = require('cors')
+const { data } = require('./data')
 const app = express()
 var corOptions = {
     origin:true
@@ -15,8 +15,8 @@ app.use(cors(corOptions))
 const mailgun = require('mailgun.js')
 const mg = () => {
     mailgun({
-        apiKey:data.MAILGUN_API_KEY,
-        domain:data.MAILGUN_DOMAIN
+        apiKey: data.MAILGUN_API_KEY,
+        domain: data.MAILGUN_DOMAIN
     })
 }
 
