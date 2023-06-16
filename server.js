@@ -33,6 +33,7 @@ app.get('/',(req,res)=>{
 app.post('/api/email', async (req,res)=>{
 
     const { to, subject, message } = req.body 
+    console.log(subject)
     const emailInfo = {
         from:"mithilesh.tarkar@gmail.com",
         to:`${to}`,
@@ -42,18 +43,22 @@ app.post('/api/email', async (req,res)=>{
     console.log(emailInfo)
 
     try{
-        const result = await mg.messages.create(data.MAILGUN_DOMAIN,{
-            from:"mithilesh.tarkar@gmail.com",
-            to,
-            subject,
-            message
-        })
-        console.log(result)
-        res.status(200).json({message:"Email sent successfully"})
+        mg.messages.create(data.MAILGUN_DOMAIN, {
+            from: emailInfo.from,
+            to: emailInfo.to,
+            subject: emailInfo.subject,
+            html: "<h1>Testing some Mailgun awesomness!</h1>"
+          })
+          .then(msg => {
+                console.log(msg)
+                res.sendStatus(200)
+          }) 
+          .catch(err => {
+            console.error(err)
+          });
     }
-    catch(error){
-        console.error(error)
-        res.status(500).json({message: 'Failed to send Email'})
+    catch(e){
+        console.log(e)
     }
 
 })
